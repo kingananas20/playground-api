@@ -1,3 +1,4 @@
+mod compile;
 mod execute;
 
 pub use execute::{ExecuteRequest, ExecuteResponse};

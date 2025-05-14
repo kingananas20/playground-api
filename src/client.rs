@@ -16,6 +16,42 @@ impl Client {
         self.post(request, Endpoints::Execute).await
     }
 
+    pub async fn compile(&self) -> Result<(), Error> {
+        todo!()
+    }
+
+    pub async fn format(&self) -> Result<(), Error> {
+        todo!()
+    }
+
+    pub async fn clippy(&self) -> Result<(), Error> {
+        todo!()
+    }
+
+    pub async fn miri(&self) -> Result<(), Error> {
+        todo!()
+    }
+
+    pub async fn macro_expansion(&self) -> Result<(), Error> {
+        todo!()
+    }
+
+    pub async fn crates(&self) -> Result<(), Error> {
+        todo!()
+    }
+
+    pub async fn versions(&self) -> Result<(), Error> {
+        todo!()
+    }
+
+    pub async fn gist_create(&self) -> Result<(), Error> {
+        todo!()
+    }
+
+    pub async fn gist_get(&self) -> Result<(), Error> {
+        todo!()
+    }
+
     async fn post<T, U>(&self, request: &T, endpoint: Endpoints) -> Result<U, Error>
     where
         T: Serialize,

@@ -1,4 +1,4 @@
-use crate::endpoints::Endpoints;
+use crate::{endpoints::*, error::Error};
 use serde::{Serialize, de::Deserialize};
 use url::{ParseError, Url};
 
@@ -12,7 +12,11 @@ impl Client {
         Client { url }
     }
 
-    pub async fn post<T, U>(&self, request: &T, endpoint: Endpoints) -> Result<U, reqwest::Error>
+    pub async fn execute(&self, request: &ExecuteRequest) -> Result<ExecuteResponse, Error> {
+        self.post(request, Endpoints::Execute).await
+    }
+
+    async fn post<T, U>(&self, request: &T, endpoint: Endpoints) -> Result<U, Error>
     where
         T: Serialize,
         U: for<'de> Deserialize<'de>,
@@ -21,7 +25,9 @@ impl Client {
         let client = reqwest::Client::new();
         let res = client.post(url).json(request).send().await?;
 
-        if !res.status().is_success() {}
+        if !res.status().is_success() {
+            return Err(Error::NoSuccess(res.status().as_u16()));
+        }
 
         let res = res.json::<U>().await?;
         Ok(res)
@@ -43,7 +49,6 @@ mod tests {
 
     #[tokio::test]
     async fn success() {
-        dotenv::dotenv().ok();
         let channel = "stable".to_string();
         let mode = "release".to_string();
         let edition = "2024".to_string();
@@ -61,7 +66,7 @@ mod tests {
         };
 
         let client = Client::new("https://play.rust-lang.org/");
-        let response: ExecuteResponse = client.post(&request, Endpoints::Execute).await.unwrap();
+        let response: ExecuteResponse = client.execute(&request).await.unwrap();
         assert!(response.success);
         println!("{:?}", response);
     }

@@ -3,7 +3,7 @@ mod execute;
 pub use execute::{ExecuteRequest, ExecuteResponse};
 use serde::{Deserialize, Serialize};
 
-pub enum Endpoints {
+pub(crate) enum Endpoints {
     Execute,
 }
 

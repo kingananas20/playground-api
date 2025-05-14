@@ -14,6 +14,29 @@ pub struct ExecuteRequest {
     pub code: String,
 }
 
+impl ExecuteRequest {
+    #[allow(dead_code)]
+    fn new(
+        channel: Channel,
+        mode: Mode,
+        edition: Edition,
+        crate_type: CrateType,
+        tests: bool,
+        backtrace: bool,
+        code: String,
+    ) -> ExecuteRequest {
+        ExecuteRequest {
+            channel,
+            mode,
+            edition,
+            crate_type,
+            tests,
+            backtrace,
+            code,
+        }
+    }
+}
+
 #[allow(dead_code)]
 #[derive(Debug, Clone, Deserialize)]
 pub struct ExecuteResponse {

@@ -17,6 +17,9 @@ pub enum Edition {
 
     #[serde(rename = "2018")]
     Edition2018,
+
+    #[serde(rename = "2015")]
+    Edition2015,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]

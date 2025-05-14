@@ -2,52 +2,64 @@ use crate::{endpoints::*, error::Error};
 use serde::{Serialize, de::Deserialize};
 use url::{ParseError, Url};
 
+#[allow(dead_code)]
 pub struct Client {
     url: String,
 }
 
 impl Client {
+    #[allow(dead_code)]
     pub fn new(url: &str) -> Client {
         let url = url.to_string();
         Client { url }
     }
 
+    #[allow(dead_code)]
     pub async fn execute(&self, request: &ExecuteRequest) -> Result<ExecuteResponse, Error> {
         self.post(request, Endpoints::Execute).await
     }
 
+    #[allow(dead_code)]
     pub async fn compile(&self) -> Result<(), Error> {
         todo!()
     }
 
+    #[allow(dead_code)]
     pub async fn format(&self) -> Result<(), Error> {
         todo!()
     }
 
+    #[allow(dead_code)]
     pub async fn clippy(&self) -> Result<(), Error> {
         todo!()
     }
 
+    #[allow(dead_code)]
     pub async fn miri(&self) -> Result<(), Error> {
         todo!()
     }
 
+    #[allow(dead_code)]
     pub async fn macro_expansion(&self) -> Result<(), Error> {
         todo!()
     }
 
+    #[allow(dead_code)]
     pub async fn crates(&self) -> Result<(), Error> {
         todo!()
     }
 
+    #[allow(dead_code)]
     pub async fn versions(&self) -> Result<(), Error> {
         todo!()
     }
 
+    #[allow(dead_code)]
     pub async fn gist_create(&self) -> Result<(), Error> {
         todo!()
     }
 
+    #[allow(dead_code)]
     pub async fn gist_get(&self) -> Result<(), Error> {
         todo!()
     }
@@ -87,8 +99,8 @@ mod tests {
     async fn success() {
         let channel = "stable".to_string();
         let mode = "release".to_string();
-        let edition = "2024".to_string();
-        let crate_type = "bin".to_string();
+        let edition = Edition::Edition2024;
+        let crate_type = CrateType::Binary;
         let code = "fn main() { println!(\"Hello, world!\"); }".to_string();
 
         let request = ExecuteRequest {
@@ -102,7 +114,7 @@ mod tests {
         };
 
         let client = Client::new("https://play.rust-lang.org/");
-        let response: ExecuteResponse = client.execute(&request).await.unwrap();
+        let response = client.execute(&request).await.unwrap();
         assert!(response.success);
         println!("{:?}", response);
     }

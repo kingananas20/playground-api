@@ -1,13 +1,13 @@
+use super::{CrateType, Edition};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize)]
 pub struct ExecuteRequest {
     pub channel: String,
     pub mode: String,
-    #[serde(default)]
-    pub edition: String,
+    pub edition: Edition,
     #[serde(rename = "crateType")]
-    pub crate_type: String,
+    pub crate_type: CrateType,
     pub tests: bool,
     #[serde(default)]
     pub backtrace: bool,

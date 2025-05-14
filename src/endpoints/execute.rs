@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct ExecuteRequest {
     pub channel: String,
     pub mode: String,
@@ -14,7 +14,7 @@ pub struct ExecuteRequest {
     pub code: String,
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct ExecuteResponse {
     pub success: bool,
     #[serde(rename = "exitDetail")]

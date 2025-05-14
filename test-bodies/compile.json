@@ -1,0 +1,13 @@
+{
+	"target": "assembly",
+	"assemblyFlavor": "intel",
+	"demangleAssembly": "demangle",
+	"processAssembly": "filter",
+	"channel": "stable",
+	"mode": "release",
+	"edition": "2024",
+	"crateType": "bin",
+	"tests": false,
+	"backtrace": false,
+	"code": "fn main() { println!(\"Hello, world\"); }"
+}

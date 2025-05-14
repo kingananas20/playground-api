@@ -1,39 +1,58 @@
+use crate::endpoints::Endpoints;
+use reqwest::Client;
 use serde::{Serialize, de::Deserialize};
+use url::{ParseError, Url};
 
-pub fn post<T, U>(request: &T, endpoint: &str) -> U
+pub async fn post<T, U>(request: &T, endpoint: Endpoints) -> Result<U, reqwest::Error>
 where
     T: Serialize,
     U: for<'de> Deserialize<'de>,
 {
-    //let url = std::env::var("PLAYGROUND_URL").unwrap();
+    let domain = std::env::var("PLAYGROUND_URL").unwrap();
+    let url = get_url(endpoint).unwrap();
+    let client = Client::new();
+    let res = client.post(url).json(request).send().await?;
 
-    let serialized = serde_json::to_string(request).unwrap();
-    println!("{}", serialized);
+    if !res.status().is_success() {}
 
-    let deserialized: U = serde_json::from_str(&serialized).unwrap();
-    deserialized
+    let res = res.json::<U>().await?;
+    Ok(res)
+}
+
+fn get_url(endpoint: Endpoints) -> Result<Url, ParseError> {
+    let domain = std::env::var("PLAYGROUND_URL").unwrap();
+    let base = Url::parse(&domain)?;
+    let url = match endpoint {
+        Endpoints::Execute => base.join("/execute"),
+    }?;
+    Ok(url)
 }
 
 #[cfg(test)]
 mod tests {
     use super::post;
-    use serde::{Deserialize, Serialize};
+    use crate::endpoints::*;
 
-    #[derive(Debug, Serialize, Deserialize, PartialEq)]
-    struct TestStruct {
-        success: bool,
-        result: u32,
-    }
+    #[tokio::test]
+    async fn success() {
+        dotenv::dotenv().ok();
+        let channel = "stable".to_string();
+        let mode = "release".to_string();
+        let edition = "2021".to_string();
+        let crate_type = "bin".to_string();
+        let code = "fn main() { println!(\"Hello, world!\"); }".to_string();
 
-    #[test]
-    fn test() {
-        let test = TestStruct {
-            success: true,
-            result: 4,
+        let request = ExecuteRequest {
+            channel,
+            mode,
+            edition,
+            crate_type,
+            tests: false,
+            backtrace: false,
+            code,
         };
 
-        let result: TestStruct = post(&test, "execute");
-
-        assert_eq!(test, result);
+        let response: ExecuteResponse = post(&request, Endpoints::Execute).await.unwrap();
+        println!("{:?}", response);
     }
 }

@@ -1,5 +1,5 @@
 {
-	"target": "assembly",
+	"target": "x86_64-unknown-linux-gnu",
 	"assemblyFlavor": "intel",
 	"demangleAssembly": "demangle",
 	"processAssembly": "filter",

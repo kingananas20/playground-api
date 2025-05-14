@@ -97,8 +97,8 @@ mod tests {
 
     #[tokio::test]
     async fn success() {
-        let channel = "stable".to_string();
-        let mode = "release".to_string();
+        let channel = Channel::Stable;
+        let mode = Mode::Release;
         let edition = Edition::Edition2024;
         let crate_type = CrateType::Binary;
         let code = "fn main() { println!(\"Hello, world!\"); }".to_string();

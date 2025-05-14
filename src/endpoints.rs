@@ -27,3 +27,24 @@ pub enum CrateType {
     #[serde(rename = "lib")]
     Library,
 }
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub enum Mode {
+    #[serde(rename = "debug")]
+    Debug,
+
+    #[serde(rename = "release")]
+    Release,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub enum Channel {
+    #[serde(rename = "stable")]
+    Stable,
+
+    #[serde(rename = "beta")]
+    Beta,
+
+    #[serde(rename = "nightly")]
+    Nightly,
+}

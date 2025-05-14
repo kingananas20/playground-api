@@ -1,10 +1,10 @@
-use super::{CrateType, Edition};
+use super::{Channel, CrateType, Edition, Mode};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize)]
 pub struct ExecuteRequest {
-    pub channel: String,
-    pub mode: String,
+    pub channel: Channel,
+    pub mode: Mode,
     pub edition: Edition,
     #[serde(rename = "crateType")]
     pub crate_type: CrateType,
@@ -14,6 +14,7 @@ pub struct ExecuteRequest {
     pub code: String,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone, Deserialize)]
 pub struct ExecuteResponse {
     pub success: bool,

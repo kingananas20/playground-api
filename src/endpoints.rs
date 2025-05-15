@@ -1,16 +1,20 @@
 mod compile;
 mod execute;
+mod format;
 
 pub use compile::{
     AssemblyFlavor, CompileRequest, CompileResponse, CompileTarget, DemangleAssembly,
     ProcessAssembly,
 };
 pub use execute::{ExecuteRequest, ExecuteResponse};
+pub use format::{FormatRequest, FormatResponse};
+
 use serde::{Deserialize, Serialize};
 
 pub(crate) enum Endpoints {
     Execute,
     Compile,
+    Format,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Eq)]

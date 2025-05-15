@@ -27,8 +27,8 @@ impl Client {
     }
 
     #[allow(dead_code)]
-    pub async fn format(&self) -> Result<(), Error> {
-        todo!()
+    pub async fn format(&self, request: &FormatRequest) -> Result<FormatResponse, Error> {
+        self.post(request, Endpoints::Format).await
     }
 
     #[allow(dead_code)]
@@ -88,6 +88,7 @@ impl Client {
         let url = match endpoint {
             Endpoints::Execute => base.join("/execute"),
             Endpoints::Compile => base.join("/compile"),
+            Endpoints::Format => base.join("/format"),
         }?;
         Ok(url)
     }
@@ -97,6 +98,8 @@ impl Client {
 mod tests {
     use super::Client;
     use crate::endpoints::*;
+
+    const URL: &str = "https://play.rust-lang.org/";
 
     const CHANNEL: Channel = Channel::Stable;
     const MODE: Mode = Mode::Release;
@@ -117,7 +120,7 @@ mod tests {
             code: CODE.to_string(),
         };
 
-        let client = Client::new("https://play.rust-lang.org/");
+        let client = Client::new(URL);
         let response = client.execute(&request).await.unwrap();
         println!("{:?}", response);
     }
@@ -134,9 +137,24 @@ mod tests {
             backtrace: false,
         };
 
-        let client = Client::new("https://play.rust-lang.org/");
+        let client = Client::new(URL);
         let response = client.compile(&request).await;
         assert!(response.is_ok());
         println!("{:?}", response);
+    }
+
+    #[tokio::test]
+    async fn format() {
+        let req = FormatRequest::new(
+            Channel::Stable,
+            CrateType::Binary,
+            Edition::Edition2024,
+            "fn main(){            \n\n   println!(\"Hello, world!\"); \n }\n".to_string(),
+        );
+
+        let client = Client::new(URL);
+        let res = client.format(&req).await;
+        assert!(res.is_ok());
+        println!("{:?}", res.unwrap());
     }
 }

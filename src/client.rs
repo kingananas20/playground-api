@@ -1,5 +1,5 @@
 use crate::{endpoints::*, error::Error};
-use serde::{Serialize, de::Deserialize};
+use serde::{de::Deserialize, Serialize};
 use url::{ParseError, Url};
 
 #[allow(dead_code)]
@@ -20,8 +20,10 @@ impl Client {
     }
 
     #[allow(dead_code)]
-    pub async fn compile(&self) -> Result<(), Error> {
-        todo!()
+    pub async fn compile(&self, _request: &CompileRequest) -> Result<CompileResponse, Error> {
+        todo!();
+        #[allow(unreachable_code)]
+        self.post(_request, Endpoints::Compile).await
     }
 
     #[allow(dead_code)]
@@ -85,6 +87,7 @@ impl Client {
         let base = Url::parse(&self.url)?;
         let url = match endpoint {
             Endpoints::Execute => base.join("/execute"),
+            Endpoints::Compile => base.join("/compile"),
         }?;
         Ok(url)
     }
@@ -95,27 +98,45 @@ mod tests {
     use super::Client;
     use crate::endpoints::*;
 
-    #[tokio::test]
-    async fn success() {
-        let channel = Channel::Stable;
-        let mode = Mode::Release;
-        let edition = Edition::Edition2024;
-        let crate_type = CrateType::Binary;
-        let code = "fn main() { println!(\"Hello, world!\"); }".to_string();
+    const CHANNEL: Channel = Channel::Stable;
+    const MODE: Mode = Mode::Release;
+    const EDITION: Edition = Edition::Edition2024;
+    const CRATE_TYPE: CrateType = CrateType::Binary;
+    const CODE: &str = "fn main() { println!(\"Hello, world!\"); }";
+    const _TARGET: CompileTarget = CompileTarget::LlvmIr;
 
+    #[tokio::test]
+    async fn execute() {
         let request = ExecuteRequest {
-            channel,
-            mode,
-            edition,
-            crate_type,
+            channel: CHANNEL,
+            mode: MODE,
+            edition: EDITION,
+            crate_type: CRATE_TYPE,
             tests: false,
             backtrace: false,
-            code,
+            code: CODE.to_string(),
         };
 
         let client = Client::new("https://play.rust-lang.org/");
         let response = client.execute(&request).await.unwrap();
-        assert!(response.success);
+        println!("{:?}", response);
+    }
+
+    async fn _compile() {
+        let request = CompileRequest {
+            target: _TARGET,
+            channel: CHANNEL,
+            mode: MODE,
+            edition: EDITION,
+            crate_type: CRATE_TYPE,
+            code: CODE.to_string(),
+            tests: false,
+            backtrace: false,
+        };
+
+        let client = Client::new("https://play.rust-lang.org/");
+        let response = client.compile(&request).await;
+        assert!(response.is_ok());
         println!("{:?}", response);
     }
 }

@@ -2,15 +2,9 @@ use super::{Channel, CrateType, Edition, Mode};
 use serde::{Deserialize, Serialize};
 
 #[allow(dead_code)]
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, PartialEq, Eq)]
 pub struct CompileRequest {
-    pub target: String,
-    #[serde(rename = "assemblyFlavor")]
-    pub assembly_flavor: Option<String>,
-    #[serde(rename = "demangleAssembly")]
-    pub demangle_assembly: Option<String>,
-    #[serde(rename = "processAssembly")]
-    pub process_assembly: Option<String>,
+    pub target: CompileTarget,
     pub channel: Channel,
     pub mode: Mode,
     #[serde(default)]
@@ -24,7 +18,7 @@ pub struct CompileRequest {
 }
 
 #[allow(dead_code)]
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct CompileResponse {
     pub success: bool,
     #[serde(rename = "exitDetail")]
@@ -32,4 +26,35 @@ pub struct CompileResponse {
     pub code: String,
     pub stdout: String,
     pub stderr: String,
+}
+
+#[derive(Debug, Serialize, Copy, Clone, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum AssemblyFlavor {
+    Att,
+    Intel,
+}
+
+#[derive(Debug, Serialize, Copy, Clone, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum DemangleAssembly {
+    Demangle,
+    Mangle,
+}
+
+#[derive(Debug, Serialize, Copy, Clone, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum ProcessAssembly {
+    Filter,
+    Raw,
+}
+
+#[derive(Debug, Serialize, Copy, Clone, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum CompileTarget {
+    Assembly(AssemblyFlavor, DemangleAssembly, ProcessAssembly),
+    Hir,
+    LlvmIr,
+    Mir,
+    Wasm,
 }

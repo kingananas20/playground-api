@@ -1,13 +1,12 @@
 {
-	"target": "x86_64-unknown-linux-gnu",
-	"assemblyFlavor": "intel",
-	"demangleAssembly": "demangle",
-	"processAssembly": "filter",
-	"channel": "stable",
+	"target": "LlvmIr",
+	"channel": "nightly",
 	"mode": "release",
 	"edition": "2024",
-	"crateType": "bin",
+	"crateType": {
+		"libraryType": "lib"
+	},
 	"tests": false,
 	"backtrace": false,
-	"code": "fn main() { println!(\"Hello, world\"); }"
+	"code": "fn main() { println!(\"Hello, world!\"); }"
 }

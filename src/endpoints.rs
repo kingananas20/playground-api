@@ -1,14 +1,19 @@
 mod compile;
 mod execute;
 
+pub use compile::{
+    AssemblyFlavor, CompileRequest, CompileResponse, CompileTarget, DemangleAssembly,
+    ProcessAssembly,
+};
 pub use execute::{ExecuteRequest, ExecuteResponse};
 use serde::{Deserialize, Serialize};
 
 pub(crate) enum Endpoints {
     Execute,
+    Compile,
 }
 
-#[derive(Debug, Deserialize, Serialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Eq)]
 pub enum Edition {
     #[serde(rename = "2024")]
     Edition2024,
@@ -23,7 +28,7 @@ pub enum Edition {
     Edition2015,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum CrateType {
     #[serde(rename = "bin")]
     Binary,
@@ -32,7 +37,7 @@ pub enum CrateType {
     Library,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum Mode {
     #[serde(rename = "debug")]
     Debug,
@@ -41,7 +46,7 @@ pub enum Mode {
     Release,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum Channel {
     #[serde(rename = "stable")]
     Stable,

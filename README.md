@@ -48,6 +48,13 @@ let res = client.execute(&req).await.unwrap();
     Example Output:
     Hello, world!
 
+## Currently supported methods
+
+The following methods are already supported
+
+    client.execute
+    client.format
+
 ## Documentation
 
 For full documentation, including advanced usage and customization, visit docs.rs.

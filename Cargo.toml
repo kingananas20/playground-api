@@ -2,6 +2,12 @@
 name = "playground-api"
 version = "0.1.0"
 edition = "2024"
+license-file = "LICENSE"
+description = "Simple API-binding for The Rust Playground"
+repository = "https://github.com/kingananas20/playground-api"
+readme = "README.md"
+keywords = ["playground", "api", "rust-playground", "rust-playground-api", "simple"]
+categories = ["api-bindings", "asynchronous"]
 
 [dependencies]
 reqwest = { version = "0.12.15", features = ["json"] }

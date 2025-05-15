@@ -1,6 +1,6 @@
 [package]
 name = "playground-api"
-version = "0.1.1"
+version = "0.1.3"
 edition = "2024"
 license-file = "LICENSE"
 description = "Simple API-binding for The Rust Playground"
@@ -10,6 +10,7 @@ keywords = ["playground", "api", "rust-playground", "rust-playground-api", "simp
 categories = ["api-bindings", "asynchronous"]
 include = [
     "Cargo.toml",
+    "Cargo.lock",
     "README.md",
     "LICENSE",
     "src/**/*"

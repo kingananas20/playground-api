@@ -1,7 +1,7 @@
 [package]
 name = "playground-api"
 version = "0.1.3"
-edition = "2024"
+edition = "2021"
 license-file = "LICENSE"
 description = "Simple API-binding for The Rust Playground"
 repository = "https://github.com/kingananas20/playground-api"

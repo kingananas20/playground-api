@@ -1,7 +1,9 @@
+mod clippy;
 mod compile;
 mod execute;
 mod format;
 
+pub use clippy::{ClippyRequest, ClippyResponse};
 pub use compile::{
     AssemblyFlavor, CompileRequest, CompileResponse, CompileTarget, DemangleAssembly,
     ProcessAssembly,
@@ -15,6 +17,7 @@ pub(crate) enum Endpoints {
     Execute,
     Compile,
     Format,
+    Clippy,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Eq)]

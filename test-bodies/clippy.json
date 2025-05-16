@@ -1,0 +1,6 @@
+{
+    "channel": "stable",
+    "crateType": "bin",
+    "edition": "2024",
+    "code": "fn main() { let x = 10; println!(\"Hello, world!\"); }"
+}

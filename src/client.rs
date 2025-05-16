@@ -24,8 +24,8 @@ impl Client {
         self.post(request, Endpoints::Format).await
     }
 
-    pub async fn clippy(&self) -> Result<(), Error> {
-        todo!()
+    pub async fn clippy(&self, request: &ClippyRequest) -> Result<ClippyResponse, Error> {
+        self.post(request, Endpoints::Clippy).await
     }
 
     pub async fn miri(&self) -> Result<(), Error> {
@@ -75,6 +75,7 @@ impl Client {
             Endpoints::Execute => base.join("/execute"),
             Endpoints::Compile => base.join("/compile"),
             Endpoints::Format => base.join("/format"),
+            Endpoints::Clippy => base.join("/clippy"),
         }?;
         Ok(url)
     }

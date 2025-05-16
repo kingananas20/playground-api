@@ -2,7 +2,7 @@ mod compile;
 mod execute;
 mod format;
 
-pub(crate) use compile::{
+pub use compile::{
     AssemblyFlavor, CompileRequest, CompileResponse, CompileTarget, DemangleAssembly,
     ProcessAssembly,
 };
@@ -38,26 +38,31 @@ pub enum CrateType {
     Binary,
 
     #[serde(rename = "lib")]
-    Library,
+    Library(LibraryType),
+}
+
+#[derive(Debug, Serialize, Deserialize, Copy, Clone, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum LibraryType {
+    Lib,
+    Dylib,
+    Rlib,
+    Staticlib,
+    Cdylib,
+    ProcMacro,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
 pub enum Mode {
-    #[serde(rename = "debug")]
     Debug,
-
-    #[serde(rename = "release")]
     Release,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
 pub enum Channel {
-    #[serde(rename = "stable")]
     Stable,
-
-    #[serde(rename = "beta")]
     Beta,
-
-    #[serde(rename = "nightly")]
     Nightly,
 }

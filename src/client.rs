@@ -16,11 +16,8 @@ impl Client {
         self.post(request, Endpoints::Execute).await
     }
 
-    pub(crate) async fn compile(
-        &self,
-        _request: &CompileRequest,
-    ) -> Result<CompileResponse, Error> {
-        self.post(_request, Endpoints::Compile).await
+    pub async fn compile(&self, request: &CompileRequest) -> Result<CompileResponse, Error> {
+        self.post(request, Endpoints::Compile).await
     }
 
     pub async fn format(&self, request: &FormatRequest) -> Result<FormatResponse, Error> {

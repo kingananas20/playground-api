@@ -2,15 +2,20 @@
 
 [![Crates.io](https://img.shields.io/crates/v/playground-api.svg)](https://crates.io/crates/playground-api)
 [![Documentation](https://docs.rs/playground-api/badge.svg)](https://docs.rs/playground-api)
+[![Rust Version](https://img.shields.io/badge/rustc-1.56+-blue.svg)](https://blog.rust-lang.org)
+[![Downloads](https://img.shields.io/crates/d/your-crate.svg)](https://crates.io/crates/your-crate)
 [![License](https://img.shields.io/crates/l/playground-api.svg)](LICENSE)
+![Stars](https://img.shields.io/github/stars/kingananas20/playground-api)
+![Forks](https://img.shields.io/github/forks/kingananas20/playground-api)
+![Issues](https://img.shields.io/github/issues/kingananas20/playground-api)
 
 `playground-api` is a Rust crate designed to simplify interaction with the Rust Playground API. It provides an easy-to-use interface for executing Rust code snippets programmatically.
 
 ## Features
 
 - Execute Rust code in the Rust Playground directly from your application.
-- Customize the execution environment (e.g., cargo tools, edition, etc.).
 - Retrieve detailed output, including compilation errors or runtime results.
+- All while being rusty
 
 ## Installation
 
@@ -54,6 +59,7 @@ The following methods are already supported
 
 ```rust
 client.execute
+client.compile      // not fully done yet (don't expect it to work with every request)
 client.format
 ```
 

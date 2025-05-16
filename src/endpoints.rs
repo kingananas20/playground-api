@@ -2,7 +2,7 @@ mod compile;
 mod execute;
 mod format;
 
-pub use compile::{
+pub(crate) use compile::{
     AssemblyFlavor, CompileRequest, CompileResponse, CompileTarget, DemangleAssembly,
     ProcessAssembly,
 };

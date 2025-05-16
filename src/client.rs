@@ -16,7 +16,10 @@ impl Client {
         self.post(request, Endpoints::Execute).await
     }
 
-    pub async fn compile(&self, _request: &CompileRequest) -> Result<CompileResponse, Error> {
+    pub(crate) async fn compile(
+        &self,
+        _request: &CompileRequest,
+    ) -> Result<CompileResponse, Error> {
         todo!();
         #[allow(unreachable_code)]
         self.post(_request, Endpoints::Compile).await

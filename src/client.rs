@@ -2,66 +2,54 @@ use crate::{endpoints::*, error::Error};
 use serde::{de::Deserialize, Serialize};
 use url::{ParseError, Url};
 
-#[allow(dead_code)]
 pub struct Client {
     url: String,
 }
 
 impl Client {
-    #[allow(dead_code)]
     pub fn new(url: &str) -> Client {
         let url = url.to_string();
         Client { url }
     }
 
-    #[allow(dead_code)]
     pub async fn execute(&self, request: &ExecuteRequest) -> Result<ExecuteResponse, Error> {
         self.post(request, Endpoints::Execute).await
     }
 
-    #[allow(dead_code)]
     pub async fn compile(&self, _request: &CompileRequest) -> Result<CompileResponse, Error> {
         todo!();
         #[allow(unreachable_code)]
         self.post(_request, Endpoints::Compile).await
     }
 
-    #[allow(dead_code)]
     pub async fn format(&self, request: &FormatRequest) -> Result<FormatResponse, Error> {
         self.post(request, Endpoints::Format).await
     }
 
-    #[allow(dead_code)]
     pub async fn clippy(&self) -> Result<(), Error> {
         todo!()
     }
 
-    #[allow(dead_code)]
     pub async fn miri(&self) -> Result<(), Error> {
         todo!()
     }
 
-    #[allow(dead_code)]
     pub async fn macro_expansion(&self) -> Result<(), Error> {
         todo!()
     }
 
-    #[allow(dead_code)]
     pub async fn crates(&self) -> Result<(), Error> {
         todo!()
     }
 
-    #[allow(dead_code)]
     pub async fn versions(&self) -> Result<(), Error> {
         todo!()
     }
 
-    #[allow(dead_code)]
     pub async fn gist_create(&self) -> Result<(), Error> {
         todo!()
     }
 
-    #[allow(dead_code)]
     pub async fn gist_get(&self) -> Result<(), Error> {
         todo!()
     }

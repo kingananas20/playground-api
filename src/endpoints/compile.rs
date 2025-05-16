@@ -1,7 +1,6 @@
 use super::{Channel, CrateType, Edition, Mode};
 use serde::{Deserialize, Serialize};
 
-#[allow(dead_code)]
 #[derive(Debug, Clone, Serialize, PartialEq, Eq)]
 pub struct CompileRequest {
     pub target: CompileTarget,
@@ -17,7 +16,6 @@ pub struct CompileRequest {
     pub code: String,
 }
 
-#[allow(dead_code)]
 #[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 pub struct CompileResponse {
     pub success: bool,

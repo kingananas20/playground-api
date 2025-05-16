@@ -20,8 +20,6 @@ impl Client {
         &self,
         _request: &CompileRequest,
     ) -> Result<CompileResponse, Error> {
-        todo!();
-        #[allow(unreachable_code)]
         self.post(_request, Endpoints::Compile).await
     }
 

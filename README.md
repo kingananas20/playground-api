@@ -52,8 +52,10 @@ let res = client.execute(&req).await.unwrap();
 
 The following methods are already supported
 
-    client.execute
-    client.format
+```rust
+client.execute
+client.format
+```
 
 ## Documentation
 
@@ -65,4 +67,4 @@ Contributions are welcome! Please open an issue or submit a pull request.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](github.com/kingananas20/playground-api/LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/kingananas20/playground-api/LICENSE) file for details.

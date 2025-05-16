@@ -3,11 +3,10 @@
 [![Crates.io](https://img.shields.io/crates/v/playground-api.svg)](https://crates.io/crates/playground-api)
 [![Documentation](https://docs.rs/playground-api/badge.svg)](https://docs.rs/playground-api)
 [![Rust Version](https://img.shields.io/badge/rustc-1.56+-blue.svg)](https://blog.rust-lang.org)
-[![Downloads](https://img.shields.io/crates/d/your-crate.svg)](https://crates.io/crates/your-crate)
+[![Downloads](https://img.shields.io/crates/d/playground-api.svg)](https://crates.io/crates/your-crate)
 [![License](https://img.shields.io/crates/l/playground-api.svg)](LICENSE)
 ![Stars](https://img.shields.io/github/stars/kingananas20/playground-api)
 ![Forks](https://img.shields.io/github/forks/kingananas20/playground-api)
-![Issues](https://img.shields.io/github/issues/kingananas20/playground-api)
 
 `playground-api` is a Rust crate designed to simplify interaction with the Rust Playground API. It provides an easy-to-use interface for executing Rust code snippets programmatically.
 

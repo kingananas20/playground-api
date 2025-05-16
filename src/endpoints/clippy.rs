@@ -10,9 +10,26 @@ pub struct ClippyRequest {
     pub code: String,
 }
 
+impl ClippyRequest {
+    pub fn new(
+        channel: Channel,
+        crate_type: CrateType,
+        edition: Edition,
+        code: String,
+    ) -> ClippyRequest {
+        ClippyRequest {
+            channel,
+            crate_type,
+            edition,
+            code,
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ClippyResponse {
     pub success: bool,
-    #[serde(rename = "exitDetail")]
     pub exit_detail: String,
+    pub stdout: String,
+    pub stderr: String,
 }

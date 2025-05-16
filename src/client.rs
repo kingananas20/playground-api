@@ -144,4 +144,19 @@ mod tests {
         assert!(res.is_ok());
         println!("{:?}", res.unwrap());
     }
+
+    #[tokio::test]
+    async fn clippy() {
+        let req = ClippyRequest::new(
+            Channel::Stable,
+            CrateType::Binary,
+            Edition::Edition2024,
+            "fn main() { let x = 10; println!(\"Hello, world!\"); }".to_owned(),
+        );
+
+        let client = Client::new(URL);
+        let res = client.clippy(&req).await;
+        assert!(res.is_ok());
+        println!("{:?}", res.unwrap());
+    }
 }

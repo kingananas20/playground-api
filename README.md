@@ -60,6 +60,7 @@ The following methods are already supported
 client.execute
 client.compile      // not fully done yet (don't expect it to work with every request)
 client.format
+client.clippy
 ```
 
 ## Documentation

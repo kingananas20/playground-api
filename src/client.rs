@@ -3,13 +3,13 @@ use serde::{de::Deserialize, Serialize};
 use url::{ParseError, Url};
 
 pub struct Client {
-    url: String,
+    url: Url,
 }
 
 impl Client {
-    pub fn new(url: &str) -> Client {
-        let url = url.to_string();
-        Client { url }
+    pub fn new(url: &str) -> Result<Client, Error> {
+        let url = Url::parse(url)?;
+        Ok(Client { url })
     }
 
     /// Sends a code execution request to the Rust playground and returns the result.
@@ -32,14 +32,6 @@ impl Client {
     ///
     /// This function will return an error if the HTTP request fails, if the response cannot be parsed,
     /// or if the playground service is unavailable.
-    ///
-    /// # Example
-    ///
-    /// ```rust
-    /// let req = ExecuteRequest;
-    /// let res = client.execute(&req).await?;
-    /// println!("{:?}", res);
-    /// ```
     pub async fn execute(&self, request: &ExecuteRequest) -> Result<ExecuteResponse, Error> {
         self.post(request, Endpoints::Execute).await
     }
@@ -65,14 +57,6 @@ impl Client {
     ///
     /// Returns an error if the HTTP request fails, if the response cannot be parsed correctly,
     /// or if the playground service encounters an issue.
-    ///
-    /// # Example
-    ///
-    /// ```rust
-    /// let req = CompileRequest;
-    /// let res = client.compile(&req).await?;
-    /// println!("{:?}", res);
-    /// ```
     pub async fn compile(&self, request: &CompileRequest) -> Result<CompileResponse, Error> {
         self.post(request, Endpoints::Compile).await
     }
@@ -97,14 +81,6 @@ impl Client {
     ///
     /// This function may return an error if the request fails, the response is invalid,
     /// or the Rust playground's formatting service encounters a problem.
-    ///
-    /// # Example
-    ///
-    /// ```rust
-    /// let req = FormatRequest;
-    /// let res = client.format(&req).await?;
-    /// println!("{:?}", res);
-    /// ```
     pub async fn format(&self, request: &FormatRequest) -> Result<FormatResponse, Error> {
         self.post(request, Endpoints::Format).await
     }
@@ -130,14 +106,6 @@ impl Client {
     ///
     /// Returns an error if the request cannot be completed, the response is invalid,
     /// or the Clippy service is unavailable or encounters an internal error.
-    ///
-    /// # Example
-    ///
-    /// ```rust
-    /// let req = ClippyRequest;
-    /// let res = client.clippy(&req).await?;
-    /// println!("{:?}", res);
-    /// ```
     pub async fn clippy(&self, request: &ClippyRequest) -> Result<ClippyResponse, Error> {
         self.post(request, Endpoints::Clippy).await
     }
@@ -166,6 +134,10 @@ impl Client {
         todo!()
     }
 
+    /// Sends a POST request with a serialized JSON payload to the specified endpoint,
+    /// and deserializes the response into the expected type.
+    ///
+    /// Used internally to interact with Rust playground endpoints.
     async fn post<T, U>(&self, request: &T, endpoint: Endpoints) -> Result<U, Error>
     where
         T: Serialize,
@@ -183,13 +155,13 @@ impl Client {
         Ok(res)
     }
 
+    /// Takes and endpoint and returns the correct url.
     fn get_url(&self, endpoint: Endpoints) -> Result<Url, ParseError> {
-        let base = Url::parse(&self.url)?;
         let url = match endpoint {
-            Endpoints::Execute => base.join("/execute"),
-            Endpoints::Compile => base.join("/compile"),
-            Endpoints::Format => base.join("/format"),
-            Endpoints::Clippy => base.join("/clippy"),
+            Endpoints::Execute => self.url.join("execute"),
+            Endpoints::Compile => self.url.join("compile"),
+            Endpoints::Format => self.url.join("format"),
+            Endpoints::Clippy => self.url.join("clippy"),
         }?;
         Ok(url)
     }
@@ -221,7 +193,7 @@ mod tests {
             code: CODE.to_string(),
         };
 
-        let client = Client::new(URL);
+        let client = Client::new(URL).unwrap();
         let response = client.execute(&request).await.unwrap();
         println!("{:?}", response);
     }
@@ -238,7 +210,7 @@ mod tests {
             backtrace: false,
         };
 
-        let client = Client::new(URL);
+        let client = Client::new(URL).unwrap();
         let response = client.compile(&request).await;
         assert!(response.is_ok());
         println!("{:?}", response);
@@ -253,7 +225,7 @@ mod tests {
             "fn main(){            \n\n   println!(\"Hello, world!\"); \n }\n".to_string(),
         );
 
-        let client = Client::new(URL);
+        let client = Client::new(URL).unwrap();
         let res = client.format(&req).await;
         assert!(res.is_ok());
         println!("{:?}", res.unwrap());
@@ -268,7 +240,7 @@ mod tests {
             "fn main() { let x = 10; println!(\"Hello, world!\"); }".to_owned(),
         );
 
-        let client = Client::new(URL);
+        let client = Client::new(URL).unwrap();
         let res = client.clippy(&req).await;
         assert!(res.is_ok());
         println!("{:?}", res.unwrap());

@@ -2,11 +2,26 @@ use crate::{endpoints::*, error::Error};
 use serde::{de::Deserialize, Serialize};
 use url::{ParseError, Url};
 
+/// A client for interacting with the Rust playground API.
+///
+/// Holds the base URL used for all requests.
 pub struct Client {
     url: Url,
 }
 
 impl Client {
+    /// Creates a new `Client` instance with the given base URL.
+    ///
+    /// Parses the provided string into a `Url`. Returns an error if the URL is invalid.
+    ///
+    /// # Arguments
+    ///
+    /// * `url` - A string slice representing the base URL of the Rust playground API.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<Client, Error>` - On success, returns a `Client` configured with the parsed URL.
+    ///   On failure, returns an `Error` if the URL string is invalid.
     pub fn new(url: &str) -> Result<Client, Error> {
         let url = Url::parse(url)?;
         Ok(Client { url })

@@ -12,18 +12,132 @@ impl Client {
         Client { url }
     }
 
+    /// Sends a code execution request to the Rust playground and returns the result.
+    ///
+    /// This asynchronous method takes and [`ExecuteRequest`] struct containing the code
+    /// execution parameters, sends it to the appropriate endpoint on the Rust playground
+    /// via a POST request, and returns the execution result.
+    ///
+    /// # Arguments
+    ///
+    /// * `request` - A reference to an [`ExecuteRequest`] that includes the code snippet
+    ///   and configuration options such as edition, crate type, and whether to run or compile.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<ExecuteResponse, Error>` - On success, returns an [`ExecuteResponse`] containing
+    ///   the output, errors, and status from the Rust playground. On failure, returns an [`Error`].
+    ///
+    /// # Errors
+    ///
+    /// This function will return an error if the HTTP request fails, if the response cannot be parsed,
+    /// or if the playground service is unavailable.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// let req = ExecuteRequest;
+    /// let res = client.execute(&req).await?;
+    /// println!("{:?}", res);
+    /// ```
     pub async fn execute(&self, request: &ExecuteRequest) -> Result<ExecuteResponse, Error> {
         self.post(request, Endpoints::Execute).await
     }
 
+    /// Sends a code compilation request to the Rust playground and returns the result.
+    ///
+    /// This asynchronous method takes a [`CompileRequest`] containing the code and
+    /// compilation parameters, sends it to the Rust playground's compile endpoint,
+    /// and returns the compilation result.
+    ///
+    /// # Arguments
+    ///
+    /// * `request` - A reference to a [`CompileRequest`] that includes the code and metadata
+    ///   such as the toolchain edition, crate type, target, and any compiler settings.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<CompileResponse, Error>` - On success, returns a [`CompileResponse`] containing
+    ///   the compiler output, including success/failure status, messages, and possible warnings or errors.
+    ///   On failure, returns an [`Error`] describing the issue.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the HTTP request fails, if the response cannot be parsed correctly,
+    /// or if the playground service encounters an issue.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// let req = CompileRequest;
+    /// let res = client.compile(&req).await?;
+    /// println!("{:?}", res);
+    /// ```
     pub async fn compile(&self, request: &CompileRequest) -> Result<CompileResponse, Error> {
         self.post(request, Endpoints::Compile).await
     }
 
+    /// Sends a code formatting request to the Rust playground and returns the formatted result.
+    ///
+    /// This asynchronous method takes a [`FormatRequest`] containing the Rust code and formatting options,
+    /// sends it to the Rust playground's format endpoint, and returns the formatted code or any errors.
+    ///
+    /// # Arguments
+    ///
+    /// * `request` - A reference to a [`FormatRequest`] that includes the code to be formatted and
+    ///   optional parameters like the edition to use.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<FormatResponse, Error>` - On success, returns a [`FormatResponse`] containing the
+    ///   formatted code or an error message if the code could not be formatted.
+    ///   On failure, returns an [`Error`] representing issues like network failure or parsing problems.
+    ///
+    /// # Errors
+    ///
+    /// This function may return an error if the request fails, the response is invalid,
+    /// or the Rust playground's formatting service encounters a problem.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// let req = FormatRequest;
+    /// let res = client.format(&req).await?;
+    /// println!("{:?}", res);
+    /// ```
     pub async fn format(&self, request: &FormatRequest) -> Result<FormatResponse, Error> {
         self.post(request, Endpoints::Format).await
     }
 
+    /// Sends a Clippy linting request to the Rust playground and returns the analysis result.
+    ///
+    /// This asynchronous method takes a [`ClippyRequest`] containing the Rust code and configuration,
+    /// sends it to the Rust playground's Clippy endpoint, and returns any linter warnings, errors,
+    /// or suggestions provided by Clippy.
+    ///
+    /// # Arguments
+    ///
+    /// * `request` - A reference to a [`ClippyRequest`] that includes the code to be analyzed
+    ///   and optional parameters such as edition or crate type.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<ClippyResponse, Error>` - On success, returns a [`ClippyResponse`] containing
+    ///   Clippy's diagnostic output (warnings, errors, suggestions). On failure, returns an [`Error`]
+    ///   describing what went wrong (e.g., network error, bad request, or service issue).
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the request cannot be completed, the response is invalid,
+    /// or the Clippy service is unavailable or encounters an internal error.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// let req = ClippyRequest;
+    /// let res = client.clippy(&req).await?;
+    /// println!("{:?}", res);
+    /// ```
     pub async fn clippy(&self, request: &ClippyRequest) -> Result<ClippyResponse, Error> {
         self.post(request, Endpoints::Clippy).await
     }

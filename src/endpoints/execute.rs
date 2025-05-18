@@ -67,6 +67,20 @@ impl ExecuteRequest {
     }
 }
 
+impl Default for ExecuteRequest {
+    fn default() -> Self {
+        ExecuteRequest {
+            channel: Channel::Stable,
+            mode: Mode::Debug,
+            edition: Edition::Edition2024,
+            crate_type: CrateType::Binary,
+            tests: false,
+            backtrace: false,
+            code: "fn main() { println!(\"Hello, world!\"); }".to_owned(),
+        }
+    }
+}
+
 /// Response structure returned after executing Rust code.
 ///
 /// Contains execution success status, exit details, and output streams.

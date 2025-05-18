@@ -1,11 +1,9 @@
 {
-	"target": "LlvmIr",
-	"channel": "nightly",
-	"mode": "release",
-	"edition": "2024",
-	"crateType": {
-		"libraryType": "lib"
-	},
+	"target": "mir",
+	"channel": "stable",
+	"mode": "debug",
+	"edition": "2021",
+	"crateType": "lib",
 	"tests": false,
 	"backtrace": false,
 	"code": "fn main() { println!(\"Hello, world!\"); }"

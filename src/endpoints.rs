@@ -51,15 +51,16 @@ pub enum CrateType {
 
     /// A library crate, with a specified library type.
     #[serde(rename = "lib")]
-    Library(LibraryType),
+    Library,
 }
 
 /// Specifies the type of Rust library to build.
 ///
 /// These map to different kinds of compiled library outputs.
+#[allow(dead_code)]
 #[derive(Debug, Serialize, Deserialize, Copy, Clone, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
-pub enum LibraryType {
+enum LibraryType {
     /// A standard Rust library (`lib.rs`).
     Lib,
 

@@ -110,6 +110,10 @@ impl Default for CompileRequest {
     /// - Tests: disabled
     /// - Backtrace: disabled
     /// - Code: `fn main() { println!("Hello, world!"); }`
+    ///
+    /// # Returns
+    ///
+    /// A `CompileRequest` instance with default values for compiling basic Rust code.
     fn default() -> Self {
         Self {
             target: CompileTarget::Assembly,

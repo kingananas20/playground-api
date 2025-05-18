@@ -32,17 +32,34 @@ impl FormatRequest {
     /// # Returns
     ///
     /// A `FormatRequest` initialized with the given parameters.
-    pub fn new(
-        channel: Channel,
-        crate_type: CrateType,
-        edition: Edition,
-        code: String,
-    ) -> FormatRequest {
-        FormatRequest {
+    pub fn new(channel: Channel, crate_type: CrateType, edition: Edition, code: String) -> Self {
+        Self {
             channel,
             crate_type,
             edition,
             code,
+        }
+    }
+}
+
+impl Default for FormatRequest {
+    /// Provides a default `FormatRequest` configuration.
+    ///
+    /// Defaults to:
+    /// - `channel`: `Stable`
+    /// - `crate_type`: `Binary`
+    /// - `edition`: `2024`
+    /// - `code`: A simple "Hello, world!" program
+    ///
+    /// # Returns
+    ///
+    /// A `FormatRequest` instance with sensible defaults for formatting Rust code.
+    fn default() -> Self {
+        Self {
+            channel: Channel::Stable,
+            crate_type: CrateType::Binary,
+            edition: Edition::Edition2024,
+            code: "fn main() { println!(\"Hello, world!\"); }".to_owned(),
         }
     }
 }

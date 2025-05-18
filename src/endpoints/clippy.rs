@@ -34,17 +34,34 @@ impl ClippyRequest {
     /// # Returns
     ///
     /// A `ClippyRequest` instance configured with the given parameters.
-    pub fn new(
-        channel: Channel,
-        crate_type: CrateType,
-        edition: Edition,
-        code: String,
-    ) -> ClippyRequest {
-        ClippyRequest {
+    pub fn new(channel: Channel, crate_type: CrateType, edition: Edition, code: String) -> Self {
+        Self {
             channel,
             crate_type,
             edition,
             code,
+        }
+    }
+}
+
+impl Default for ClippyRequest {
+    /// Provides a default `ClippyRequest` configuration.
+    ///
+    /// Defaults to:
+    /// - `channel`: `Stable`
+    /// - `crate_type`: `Binary`
+    /// - `edition`: `2024`
+    /// - `code`: A basic "Hello, world!" program
+    ///
+    /// # Returns
+    ///
+    /// A `ClippyRequest` instance with default values for linting basic Rust code.
+    fn default() -> Self {
+        Self {
+            channel: Channel::Stable,
+            crate_type: CrateType::Binary,
+            edition: Edition::Edition2024,
+            code: "fn main() { println!(\"Hello, world!\"); }".to_owned(),
         }
     }
 }

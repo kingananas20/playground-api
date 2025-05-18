@@ -54,8 +54,8 @@ impl ExecuteRequest {
         tests: bool,
         backtrace: bool,
         code: String,
-    ) -> ExecuteRequest {
-        ExecuteRequest {
+    ) -> Self {
+        Self {
             channel,
             mode,
             edition,
@@ -68,8 +68,22 @@ impl ExecuteRequest {
 }
 
 impl Default for ExecuteRequest {
+    /// Provides a default `ExecuteRequest` configuration.
+    ///
+    /// Defaults to:
+    /// - `channel`: `Stable`
+    /// - `mode`: `Debug`
+    /// - `edition`: `2024`
+    /// - `crate_type`: `Binary`
+    /// - `tests`: `false`
+    /// - `backtrace`: `false`
+    /// - `code`: A simple "Hello, world!" program
+    ///
+    /// # Returns
+    ///
+    /// A `ExecuteRequest` instance with standard execution defaults
     fn default() -> Self {
-        ExecuteRequest {
+        Self {
             channel: Channel::Stable,
             mode: Mode::Debug,
             edition: Edition::Edition2024,

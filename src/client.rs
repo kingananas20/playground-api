@@ -191,51 +191,45 @@ mod tests {
 
     #[tokio::test]
     async fn execute() {
-        let request = ExecuteRequest::default();
+        let req = ExecuteRequest::default();
 
         let client = Client::new(URL).unwrap();
-        let response = client.execute(&request).await.unwrap();
-        println!("{:?}", response);
+        let res = client.execute(&req).await;
+
+        println!("{:?}", res);
+        assert!(res.is_ok())
     }
 
     #[tokio::test]
-    async fn _compile() {
-        let request = CompileRequest::default();
+    async fn compile() {
+        let req = CompileRequest::default();
 
         let client = Client::new(URL).unwrap();
-        let response = client.compile(&request).await;
-        println!("{:?}", response);
-        assert!(response.is_ok());
-        println!("{:?}", response);
+        let res = client.compile(&req).await;
+
+        println!("{:?}", res);
+        assert!(res.is_ok());
     }
 
     #[tokio::test]
     async fn format() {
-        let req = FormatRequest::new(
-            Channel::Stable,
-            CrateType::Binary,
-            Edition::Edition2024,
-            "fn main(){            \n\n   println!(\"Hello, world!\"); \n }\n".to_string(),
-        );
+        let req = FormatRequest::default();
 
         let client = Client::new(URL).unwrap();
         let res = client.format(&req).await;
+
+        println!("{:?}", res);
         assert!(res.is_ok());
-        println!("{:?}", res.unwrap());
     }
 
     #[tokio::test]
     async fn clippy() {
-        let req = ClippyRequest::new(
-            Channel::Stable,
-            CrateType::Binary,
-            Edition::Edition2024,
-            "fn main() { let x = 10; println!(\"Hello, world!\"); }".to_owned(),
-        );
+        let req = ClippyRequest::default();
 
         let client = Client::new(URL).unwrap();
         let res = client.clippy(&req).await;
+
+        println!("{:?}", res);
         assert!(res.is_ok());
-        println!("{:?}", res.unwrap());
     }
 }

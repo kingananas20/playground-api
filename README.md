@@ -3,7 +3,7 @@
 [![Crates.io](https://img.shields.io/crates/v/playground-api.svg)](https://crates.io/crates/playground-api)
 [![Documentation](https://docs.rs/playground-api/badge.svg)](https://docs.rs/playground-api)
 [![Rust Version](https://img.shields.io/badge/rustc-1.56+-blue.svg)](https://blog.rust-lang.org)
-[![Downloads](https://img.shields.io/crates/d/playground-api.svg)](https://crates.io/crates/your-crate)
+[![Downloads](https://img.shields.io/crates/d/playground-api.svg)](https://crates.io/crates/playground-api)
 [![License](https://img.shields.io/crates/l/playground-api.svg)](LICENSE)
 ![Stars](https://img.shields.io/github/stars/kingananas20/playground-api)
 ![Forks](https://img.shields.io/github/forks/kingananas20/playground-api)
@@ -30,18 +30,11 @@ playground-api = "0.1.0" # Replace with the latest version
 To use the crate, first ensure you have an internet connection as it interacts with the Rust Playground API. Below is a simple example showcasing the .execute feature:
 
 ```rust
+// Create a new ExecuteRequest
+let req = ExecuteRequest::default();
+
 // Create a new client with an url to the playground of your choice (here the official one)
 let client = Client::new("https://play.rust-lang.org/");
-
-// Create a new ExecuteRequest
-let req = ExecuteRequest::new(
-    Channel::Stable, 
-    Mode::Release, 
-    Edition::Edition2024, 
-    false, 
-    false, 
-    "println!(\"Hello, world!\")".to_string()
-)
 
 // send the ExecuteRequest to the playground server and receive the result
 let res = client.execute(&req).await.unwrap();
@@ -58,7 +51,7 @@ The following methods are already supported
 
 ```rust
 client.execute
-client.compile      // not fully done yet (don't expect it to work with every request)
+client.compile
 client.format
 client.clippy
 ```

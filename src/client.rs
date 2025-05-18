@@ -189,44 +189,22 @@ mod tests {
 
     const URL: &str = "https://play.rust-lang.org/";
 
-    const CHANNEL: Channel = Channel::Stable;
-    const MODE: Mode = Mode::Release;
-    const EDITION: Edition = Edition::Edition2024;
-    const CRATE_TYPE: CrateType = CrateType::Binary;
-    const CODE: &str = "fn main() { println!(\"Hello, world!\"); }";
-    const _TARGET: CompileTarget = CompileTarget::LlvmIr;
-
     #[tokio::test]
     async fn execute() {
-        let request = ExecuteRequest {
-            channel: CHANNEL,
-            mode: MODE,
-            edition: EDITION,
-            crate_type: CRATE_TYPE,
-            tests: false,
-            backtrace: false,
-            code: CODE.to_string(),
-        };
+        let request = ExecuteRequest::default();
 
         let client = Client::new(URL).unwrap();
         let response = client.execute(&request).await.unwrap();
         println!("{:?}", response);
     }
 
+    #[tokio::test]
     async fn _compile() {
-        let request = CompileRequest {
-            target: _TARGET,
-            channel: CHANNEL,
-            mode: MODE,
-            edition: EDITION,
-            crate_type: CRATE_TYPE,
-            code: CODE.to_string(),
-            tests: false,
-            backtrace: false,
-        };
+        let request = CompileRequest::default();
 
         let client = Client::new(URL).unwrap();
         let response = client.compile(&request).await;
+        println!("{:?}", response);
         assert!(response.is_ok());
         println!("{:?}", response);
     }

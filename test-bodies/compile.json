@@ -1,9 +1,12 @@
 {
 	"target": "mir",
+	"assemblyFlavor": null,
+	"demangleAssembly": null,
+	"processAssembly": null,
 	"channel": "stable",
 	"mode": "debug",
 	"edition": "2021",
-	"crateType": "lib",
+	"crateType": "bin",
 	"tests": false,
 	"backtrace": false,
 	"code": "fn main() { println!(\"Hello, world!\"); }"

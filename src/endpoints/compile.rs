@@ -10,6 +10,18 @@ pub struct CompileRequest {
     /// The output target format of the compilation (e.g., Assembly, MIR).
     pub target: CompileTarget,
 
+    /// What flavour the assembly output should have (only required when target is [`CompileTarget::Assembly`])
+    #[serde(rename = "assemblyFlavor")]
+    pub assembly_flavor: Option<AssemblyFlavor>,
+
+    /// If the assembly output should be demangled or not (only required when target is [`CompileTarget::Assembly`])
+    #[serde(rename = "demangleAssembly")]
+    pub demangle_assembly: Option<DemangleAssembly>,
+
+    /// If the output should be processed or not (only required when target is [`CompileTarget::Assembly`])
+    #[serde(rename = "processAssembly")]
+    pub process_assembly: Option<ProcessAssembly>,
+
     /// The Rust release channel to use (stable, beta, nightly).
     pub channel: Channel,
 
@@ -31,6 +43,88 @@ pub struct CompileRequest {
 
     /// The Rust source code to compile.
     pub code: String,
+}
+
+impl CompileRequest {
+    /// Creates a new `CompileRequest` instance.
+    ///
+    /// # Arguments
+    ///
+    /// * `target` - The compilation target (e.g., Assembly, LLVM IR, Wasm).
+    /// * `assembly_flavor` - The assembly flavor used when targeting assembly (e.g., AT&T or Intel). Optional.
+    /// * `demangle_assembly` - Whether to demangle symbols in assembly output. Optional.
+    /// * `process_assembly` - Whether to filter or output raw assembly. Optional.
+    /// * `channel` - The Rust release channel (e.g., stable, beta, nightly).
+    /// * `mode` - Compilation mode (e.g., debug or release).
+    /// * `edition` - The Rust edition to compile against.
+    /// * `crate_type` - The crate type (binary or library).
+    /// * `tests` - Whether to compile with test harness.
+    /// * `backtrace` - Whether to enable backtrace support.
+    /// * `code` - The Rust source code to compile.
+    ///
+    /// # Returns
+    ///
+    /// A fully constructed `CompileRequest`.
+    #[allow(clippy::too_many_arguments)]
+    pub fn new(
+        target: CompileTarget,
+        assembly_flavor: Option<AssemblyFlavor>,
+        demangle_assembly: Option<DemangleAssembly>,
+        process_assembly: Option<ProcessAssembly>,
+        channel: Channel,
+        mode: Mode,
+        edition: Edition,
+        crate_type: CrateType,
+        tests: bool,
+        backtrace: bool,
+        code: String,
+    ) -> Self {
+        Self {
+            target,
+            assembly_flavor,
+            demangle_assembly,
+            process_assembly,
+            channel,
+            mode,
+            edition,
+            crate_type,
+            tests,
+            backtrace,
+            code,
+        }
+    }
+}
+
+impl Default for CompileRequest {
+    /// Provides a default `CompileRequest` configuration.
+    ///
+    /// Defaults to:
+    /// - Target: `Assembly`
+    /// - Assembly flavor: `AT&T`
+    /// - Demangling: `Demangle`
+    /// - Process: `Filter`
+    /// - Channel: `Stable`
+    /// - Mode: `Debug`
+    /// - Edition: `2024`
+    /// - Crate type: `Binary`
+    /// - Tests: disabled
+    /// - Backtrace: disabled
+    /// - Code: `fn main() { println!("Hello, world!"); }`
+    fn default() -> Self {
+        Self {
+            target: CompileTarget::Assembly,
+            assembly_flavor: Some(AssemblyFlavor::Att),
+            demangle_assembly: Some(DemangleAssembly::Demangle),
+            process_assembly: Some(ProcessAssembly::Filter),
+            channel: Channel::Stable,
+            mode: Mode::Debug,
+            edition: Edition::Edition2024,
+            crate_type: CrateType::Binary,
+            tests: false,
+            backtrace: false,
+            code: "fn main() { println!(\"Hello, world!\"); }".to_owned(),
+        }
+    }
 }
 
 /// Response structure returned after compiling Rust code.
@@ -91,7 +185,7 @@ pub enum ProcessAssembly {
 /// Defines the compilation target output format.
 ///
 /// Variants:
-/// - `Assembly` with options for syntax, demangling, and processing.
+/// - `Assembly`: Direct assembly output.
 /// - `Hir`: High-level Intermediate Representation.
 /// - `LlvmIr`: LLVM Intermediate Representation.
 /// - `Mir`: Mid-level Intermediate Representation.
@@ -99,7 +193,8 @@ pub enum ProcessAssembly {
 #[derive(Debug, Serialize, Copy, Clone, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum CompileTarget {
-    Assembly(AssemblyFlavor, DemangleAssembly, ProcessAssembly),
+    #[serde(rename = "asm")]
+    Assembly,
     Hir,
     LlvmIr,
     Mir,

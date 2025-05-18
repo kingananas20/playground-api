@@ -1,5 +1,6 @@
 mod client;
 pub mod endpoints;
-pub mod error;
+mod error;
 
 pub use client::Client;
+pub use error::Error;

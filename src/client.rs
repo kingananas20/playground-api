@@ -182,6 +182,15 @@ impl Client {
     }
 }
 
+impl Default for Client {
+    /// Creates a `Client` instance with the following url https://play.rust-lang.org/
+    fn default() -> Self {
+        Self {
+            url: Url::parse("https://play.rust-lang.org/").unwrap(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::Client;

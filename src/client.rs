@@ -125,8 +125,8 @@ impl Client {
         self.post(request, Endpoints::Clippy).await
     }
 
-    pub async fn miri(&self) -> Result<(), Error> {
-        todo!()
+    pub async fn miri(&self, request: &MiriRequest) -> Result<MiriResponse, Error> {
+        self.post(request, Endpoints::Miri).await
     }
 
     pub async fn macro_expansion(&self) -> Result<(), Error> {
@@ -177,6 +177,7 @@ impl Client {
             Endpoints::Compile => self.url.join("compile"),
             Endpoints::Format => self.url.join("format"),
             Endpoints::Clippy => self.url.join("clippy"),
+            Endpoints::Miri => self.url.join("miri"),
         }?;
         Ok(url)
     }
@@ -196,13 +197,11 @@ mod tests {
     use super::Client;
     use crate::endpoints::*;
 
-    const URL: &str = "https://play.rust-lang.org/";
-
     #[tokio::test]
     async fn execute() {
         let req = ExecuteRequest::default();
 
-        let client = Client::new(URL).unwrap();
+        let client = Client::default();
         let res = client.execute(&req).await;
 
         println!("{:?}", res);
@@ -213,7 +212,7 @@ mod tests {
     async fn compile() {
         let req = CompileRequest::default();
 
-        let client = Client::new(URL).unwrap();
+        let client = Client::default();
         let res = client.compile(&req).await;
 
         println!("{:?}", res);
@@ -224,7 +223,7 @@ mod tests {
     async fn format() {
         let req = FormatRequest::default();
 
-        let client = Client::new(URL).unwrap();
+        let client = Client::default();
         let res = client.format(&req).await;
 
         println!("{:?}", res);
@@ -235,8 +234,19 @@ mod tests {
     async fn clippy() {
         let req = ClippyRequest::default();
 
-        let client = Client::new(URL).unwrap();
+        let client = Client::default();
         let res = client.clippy(&req).await;
+
+        println!("{:?}", res);
+        assert!(res.is_ok());
+    }
+
+    #[tokio::test]
+    async fn miri() {
+        let req = MiriRequest::default();
+
+        let client = Client::default();
+        let res = client.miri(&req).await;
 
         println!("{:?}", res);
         assert!(res.is_ok());

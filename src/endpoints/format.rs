@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 /// Request structure to format Rust source code via the playground.
 ///
 /// Specifies formatting options and the source code to format.
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct FormatRequest {
     /// The Rust release channel to use for formatting (stable, beta, nightly).
     pub channel: Channel,
@@ -67,7 +67,7 @@ impl Default for FormatRequest {
 /// Response structure returned after formatting Rust code.
 ///
 /// Contains success status, exit details, and the formatted code.
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct FormatResponse {
     /// Indicates whether formatting was successful.
     pub success: bool,

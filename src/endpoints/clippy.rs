@@ -69,7 +69,7 @@ impl Default for ClippyRequest {
 /// Represents the response from running Clippy on submitted code.
 ///
 /// Includes success status, exit details, and output streams.
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct ClippyResponse {
     /// Whether Clippy completed successfully without errors.
     pub success: bool,

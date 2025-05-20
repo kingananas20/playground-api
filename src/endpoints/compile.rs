@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 ///
 /// Contains configuration for target output, compilation channel, mode,
 /// crate type, edition, and the source code to compile.
-#[derive(Debug, Clone, Serialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct CompileRequest {
     /// The output target format of the compilation (e.g., Assembly, MIR).
     pub target: CompileTarget,
@@ -134,7 +134,7 @@ impl Default for CompileRequest {
 /// Response structure returned after compiling Rust code.
 ///
 /// Includes compilation success status, process exit details, and outputs.
-#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct CompileResponse {
     /// Indicates if the compilation was successful.
     pub success: bool,
@@ -157,7 +157,7 @@ pub struct CompileResponse {
 ///
 /// - `Att`: AT&T syntax (common on Unix-like systems).
 /// - `Intel`: Intel syntax (common on Windows).
-#[derive(Debug, Serialize, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum AssemblyFlavor {
     Att,
@@ -168,7 +168,7 @@ pub enum AssemblyFlavor {
 ///
 /// - `Demangle`: Convert symbol names to human-readable form.
 /// - `Mangle`: Keep symbol names mangled (default compiler format).
-#[derive(Debug, Serialize, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum DemangleAssembly {
     Demangle,
@@ -179,7 +179,7 @@ pub enum DemangleAssembly {
 ///
 /// - `Filter`: Filter assembly output for readability.
 /// - `Raw`: Return raw assembly output without filtering.
-#[derive(Debug, Serialize, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum ProcessAssembly {
     Filter,
@@ -194,7 +194,7 @@ pub enum ProcessAssembly {
 /// - `LlvmIr`: LLVM Intermediate Representation.
 /// - `Mir`: Mid-level Intermediate Representation.
 /// - `Wasm`: WebAssembly output.
-#[derive(Debug, Serialize, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum CompileTarget {
     #[serde(rename = "asm")]

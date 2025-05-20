@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 /// Request structure to execute Rust code on the playground.
 ///
 /// Specifies compilation parameters and the source code to run.
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct ExecuteRequest {
     /// The Rust release channel to use (stable, beta, nightly).
     pub channel: Channel,
@@ -98,7 +98,7 @@ impl Default for ExecuteRequest {
 /// Response structure returned after executing Rust code.
 ///
 /// Contains execution success status, exit details, and output streams.
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 pub struct ExecuteResponse {
     /// Indicates whether the execution was successful.
     pub success: bool,

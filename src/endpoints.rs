@@ -2,6 +2,7 @@ mod clippy;
 mod compile;
 mod execute;
 mod format;
+mod miri;
 
 pub use clippy::{ClippyRequest, ClippyResponse};
 pub use compile::{
@@ -10,6 +11,7 @@ pub use compile::{
 };
 pub use execute::{ExecuteRequest, ExecuteResponse};
 pub use format::{FormatRequest, FormatResponse};
+pub use miri::{AliasingModel, MiriRequest, MiriResponse};
 
 use serde::{Deserialize, Serialize};
 
@@ -18,12 +20,13 @@ pub(crate) enum Endpoints {
     Compile,
     Format,
     Clippy,
+    Miri,
 }
 
 /// Represents the Rust edition to use.
 ///
 /// Each edition introduces new language features and idioms while maintaining compatibility.
-#[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
 pub enum Edition {
     /// Rust 2024 Edition
     #[serde(rename = "2024")]
@@ -43,7 +46,7 @@ pub enum Edition {
 }
 
 /// Defines the type of crate to be compiled: binary or library.
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
 pub enum CrateType {
     /// A binary crate with a `main` function, compiled to an executable.
     #[serde(rename = "bin")]
@@ -58,7 +61,7 @@ pub enum CrateType {
 ///
 /// These map to different kinds of compiled library outputs.
 #[allow(dead_code)]
-#[derive(Debug, Serialize, Deserialize, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 enum LibraryType {
     /// A standard Rust library (`lib.rs`).
@@ -81,7 +84,7 @@ enum LibraryType {
 }
 
 /// Indicates whether to compile code in debug or release mode.
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum Mode {
     /// Compile with debug information and no optimizations.
@@ -92,7 +95,7 @@ pub enum Mode {
 }
 
 /// Specifies the Rust release channel to use.
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum Channel {
     /// Stable channel – tested and officially released features.

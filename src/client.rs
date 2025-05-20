@@ -133,8 +133,8 @@ impl Client {
         todo!()
     }
 
-    pub async fn crates(&self) -> Result<(), Error> {
-        todo!()
+    pub async fn crates(&self) -> Result<CratesResponse, Error> {
+        self.get(Endpoints::Crates).await
     }
 
     pub async fn versions(&self) -> Result<(), Error> {
@@ -158,7 +158,7 @@ impl Client {
         T: Serialize,
         U: for<'de> Deserialize<'de>,
     {
-        let url = self.get_url(endpoint).unwrap();
+        let url = self.get_url(endpoint)?;
         let client = reqwest::Client::new();
         let res = client.post(url).json(request).send().await?;
 
@@ -170,7 +170,27 @@ impl Client {
         Ok(res)
     }
 
-    /// Takes and endpoint and returns the correct url.
+    /// Sends a GET request to the specified endpoint, and deserializes the response
+    /// into the expected type.
+    ///
+    /// Used internally to interact with Rust playground endpoints.
+    async fn get<U>(&self, endpoint: Endpoints) -> Result<U, Error>
+    where
+        U: for<'de> Deserialize<'de>,
+    {
+        let url = self.get_url(endpoint)?;
+        let client = reqwest::Client::new();
+        let res = client.get(url).send().await?;
+
+        if !res.status().is_success() {
+            return Err(Error::NoSuccess(res.status().as_u16()));
+        }
+
+        let res = res.json::<U>().await?;
+        Ok(res)
+    }
+
+    /// Takes an endpoint and returns the correct url.
     fn get_url(&self, endpoint: Endpoints) -> Result<Url, ParseError> {
         let url = match endpoint {
             Endpoints::Execute => self.url.join("execute"),
@@ -178,6 +198,7 @@ impl Client {
             Endpoints::Format => self.url.join("format"),
             Endpoints::Clippy => self.url.join("clippy"),
             Endpoints::Miri => self.url.join("miri"),
+            Endpoints::Crates => self.url.join("meta/crates"),
         }?;
         Ok(url)
     }
@@ -247,6 +268,15 @@ mod tests {
 
         let client = Client::default();
         let res = client.miri(&req).await;
+
+        println!("{:?}", res);
+        assert!(res.is_ok());
+    }
+
+    #[tokio::test]
+    async fn crates() {
+        let client = Client::default();
+        let res = client.crates().await;
 
         println!("{:?}", res);
         assert!(res.is_ok());

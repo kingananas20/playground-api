@@ -1,5 +1,8 @@
+//! Module which contains request and response types for the various endpoints
+
 mod clippy;
 mod compile;
+mod crates;
 mod execute;
 mod format;
 mod miri;
@@ -9,6 +12,7 @@ pub use compile::{
     AssemblyFlavor, CompileRequest, CompileResponse, CompileTarget, DemangleAssembly,
     ProcessAssembly,
 };
+pub use crates::{CrateInformation, CratesResponse};
 pub use execute::{ExecuteRequest, ExecuteResponse};
 pub use format::{FormatRequest, FormatResponse};
 pub use miri::{AliasingModel, MiriRequest, MiriResponse};
@@ -21,6 +25,7 @@ pub(crate) enum Endpoints {
     Format,
     Clippy,
     Miri,
+    Crates,
 }
 
 /// Represents the Rust edition to use.

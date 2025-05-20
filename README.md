@@ -54,6 +54,7 @@ client.execute
 client.compile
 client.format
 client.clippy
+client.miri
 ```
 
 ## Documentation

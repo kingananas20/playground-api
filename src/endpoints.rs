@@ -5,6 +5,7 @@ mod compile;
 mod crates;
 mod execute;
 mod format;
+mod gist;
 mod macro_expansion;
 mod miri;
 mod versions;
@@ -17,6 +18,7 @@ pub use compile::{
 pub use crates::{CrateInformation, CratesResponse};
 pub use execute::{ExecuteRequest, ExecuteResponse};
 pub use format::{FormatRequest, FormatResponse};
+pub use gist::{GistCreateRequest, GistResponse};
 pub use macro_expansion::{MacroExpansionRequest, MacroExpansionResponse};
 pub use miri::{AliasingModel, MiriRequest, MiriResponse};
 pub use versions::{ChannelVersion, Version, VersionsResponse};
@@ -32,6 +34,8 @@ pub(crate) enum Endpoints {
     MacroExpansion,
     Crates,
     Versions,
+    GistCreate,
+    GistGet(String),
 }
 
 /// Represents the Rust edition to use.

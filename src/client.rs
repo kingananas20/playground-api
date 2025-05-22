@@ -144,8 +144,8 @@ impl Client {
         self.get(Endpoints::Versions).await
     }
 
-    pub async fn gist_create(&self) -> Result<(), Error> {
-        todo!()
+    pub async fn gist_create(&self, request: &GistCreateRequest) -> Result<GistResponse, Error> {
+        self.post(request, Endpoints::GistCreate).await
     }
 
     pub async fn gist_get(&self) -> Result<(), Error> {
@@ -204,6 +204,8 @@ impl Client {
             Endpoints::Crates => self.url.join("meta/crates"),
             Endpoints::Versions => self.url.join("meta/versions"),
             Endpoints::MacroExpansion => self.url.join("macro-expansion"),
+            Endpoints::GistCreate => self.url.join("meta/gist"),
+            Endpoints::GistGet(id) => self.url.join(&format!("meta/gist/{}", id)),
         }?;
         Ok(url)
     }
@@ -302,6 +304,18 @@ mod tests {
     async fn version() {
         let client = Client::default();
         let res = client.versions().await;
+
+        println!("{:?}", res);
+        assert!(res.is_ok());
+    }
+
+    #[tokio::test]
+    #[ignore = "don't flood rust playground gist with useless gists"]
+    async fn gist_create() {
+        let req = GistCreateRequest::new("fn main() { println!(\"Hello, world!\"); }".to_owned());
+
+        let client = Client::default();
+        let res = client.gist_create(&req).await;
 
         println!("{:?}", res);
         assert!(res.is_ok());

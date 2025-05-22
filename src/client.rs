@@ -148,8 +148,8 @@ impl Client {
         self.post(request, Endpoints::GistCreate).await
     }
 
-    pub async fn gist_get(&self) -> Result<(), Error> {
-        todo!()
+    pub async fn gist_get(&self, id: String) -> Result<GistResponse, Error> {
+        self.get(Endpoints::GistGet(id)).await
     }
 
     /// Sends a POST request with a serialized JSON payload to the specified endpoint,
@@ -316,6 +316,17 @@ mod tests {
 
         let client = Client::default();
         let res = client.gist_create(&req).await;
+
+        println!("{:?}", res);
+        assert!(res.is_ok());
+    }
+
+    #[tokio::test]
+    async fn gist_get() {
+        let id = "ba5e40fb63e78da440797e921bbf2aa6".to_owned();
+
+        let client = Client::default();
+        let res = client.gist_get(id).await;
 
         println!("{:?}", res);
         assert!(res.is_ok());

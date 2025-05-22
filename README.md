@@ -22,7 +22,7 @@ Add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-playground-api = "0.1.0" # Replace with the latest version
+playground-api = "0.2" # Replace with the latest version
 ```
 
 ## Usage
@@ -30,7 +30,7 @@ playground-api = "0.1.0" # Replace with the latest version
 To use the crate, first ensure you have an internet connection as it interacts with the Rust Playground API. Below is a simple example showcasing the .execute feature:
 
 ```rust
-// Create a new ExecuteRequest
+// Create a new ExecuteRequest with the default values
 let req = ExecuteRequest::default();
 
 // Create a new client with an url to the playground of your choice (here the official one)
@@ -42,24 +42,28 @@ let res = client.execute(&req).await.unwrap();
 
 ### Example Output
 
-    Example Output:
     Hello, world!
 
-## Currently supported methods
+## Supported methods
 
-The following methods are already supported
+The following methods are supported
 
 ```rust
-client.execute
-client.compile
-client.format
-client.clippy
-client.miri
+client.execute                  // Execute code
+client.compile                  // Compile code to different targets
+client.format                   // Format code using rustfmt
+client.clippy                   // Use clippy on your code
+client.miri                     // Run your code with the Miri interpreter
+client.macro_expansion          // Expand your used macros
+client.crates                   // Get the available crates
+client.versions                 // Get the current rustc, rustfmt, clippy and miri versions
+client.gist_create              // Create a new gist with your code
+client.gist_get                 // Get a gist with an id
 ```
 
 ## Documentation
 
-For full documentation, including advanced usage and customization, visit docs.rs.
+For full documentation, including advanced usage and customization, visit [docs.rs](https://docs.rs/playground-api).
 
 ## Contributing
 

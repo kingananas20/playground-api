@@ -129,8 +129,11 @@ impl Client {
         self.post(request, Endpoints::Miri).await
     }
 
-    pub async fn macro_expansion(&self) -> Result<(), Error> {
-        todo!()
+    pub async fn macro_expansion(
+        &self,
+        request: &MacroExpansionRequest,
+    ) -> Result<MacroExpansionResponse, Error> {
+        self.post(request, Endpoints::MacroExpansion).await
     }
 
     pub async fn crates(&self) -> Result<CratesResponse, Error> {
@@ -200,6 +203,7 @@ impl Client {
             Endpoints::Miri => self.url.join("miri"),
             Endpoints::Crates => self.url.join("meta/crates"),
             Endpoints::Versions => self.url.join("meta/versions"),
+            Endpoints::MacroExpansion => self.url.join("macro-expansion"),
         }?;
         Ok(url)
     }
@@ -269,6 +273,17 @@ mod tests {
 
         let client = Client::default();
         let res = client.miri(&req).await;
+
+        println!("{:?}", res);
+        assert!(res.is_ok());
+    }
+
+    #[tokio::test]
+    async fn macro_expansion() {
+        let req = MacroExpansionRequest::default();
+
+        let client = Client::default();
+        let res = client.macro_expansion(&req).await;
 
         println!("{:?}", res);
         assert!(res.is_ok());

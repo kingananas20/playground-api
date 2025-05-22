@@ -5,6 +5,7 @@ mod compile;
 mod crates;
 mod execute;
 mod format;
+mod macro_expansion;
 mod miri;
 mod versions;
 
@@ -16,6 +17,7 @@ pub use compile::{
 pub use crates::{CrateInformation, CratesResponse};
 pub use execute::{ExecuteRequest, ExecuteResponse};
 pub use format::{FormatRequest, FormatResponse};
+pub use macro_expansion::{MacroExpansionRequest, MacroExpansionResponse};
 pub use miri::{AliasingModel, MiriRequest, MiriResponse};
 pub use versions::{ChannelVersion, Version, VersionsResponse};
 
@@ -27,6 +29,7 @@ pub(crate) enum Endpoints {
     Format,
     Clippy,
     Miri,
+    MacroExpansion,
     Crates,
     Versions,
 }

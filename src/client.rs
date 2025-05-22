@@ -137,8 +137,8 @@ impl Client {
         self.get(Endpoints::Crates).await
     }
 
-    pub async fn versions(&self) -> Result<(), Error> {
-        todo!()
+    pub async fn versions(&self) -> Result<VersionsResponse, Error> {
+        self.get(Endpoints::Versions).await
     }
 
     pub async fn gist_create(&self) -> Result<(), Error> {
@@ -199,6 +199,7 @@ impl Client {
             Endpoints::Clippy => self.url.join("clippy"),
             Endpoints::Miri => self.url.join("miri"),
             Endpoints::Crates => self.url.join("meta/crates"),
+            Endpoints::Versions => self.url.join("meta/versions"),
         }?;
         Ok(url)
     }
@@ -277,6 +278,15 @@ mod tests {
     async fn crates() {
         let client = Client::default();
         let res = client.crates().await;
+
+        println!("{:?}", res);
+        assert!(res.is_ok());
+    }
+
+    #[tokio::test]
+    async fn version() {
+        let client = Client::default();
+        let res = client.versions().await;
 
         println!("{:?}", res);
         assert!(res.is_ok());

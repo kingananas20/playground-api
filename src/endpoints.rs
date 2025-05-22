@@ -6,6 +6,7 @@ mod crates;
 mod execute;
 mod format;
 mod miri;
+mod versions;
 
 pub use clippy::{ClippyRequest, ClippyResponse};
 pub use compile::{
@@ -16,6 +17,7 @@ pub use crates::{CrateInformation, CratesResponse};
 pub use execute::{ExecuteRequest, ExecuteResponse};
 pub use format::{FormatRequest, FormatResponse};
 pub use miri::{AliasingModel, MiriRequest, MiriResponse};
+pub use versions::{ChannelVersion, Version, VersionsResponse};
 
 use serde::{Deserialize, Serialize};
 
@@ -26,6 +28,7 @@ pub(crate) enum Endpoints {
     Clippy,
     Miri,
     Crates,
+    Versions,
 }
 
 /// Represents the Rust edition to use.

@@ -4,9 +4,11 @@ use url::{ParseError, Url};
 
 /// A client for interacting with the Rust playground API.
 ///
-/// Holds the base URL used for all requests.
+/// Holds the base URL and the `reqwest::Client` struct for all requests.
+#[derive(Clone)]
 pub struct Client {
     url: Url,
+    client: reqwest::Client,
 }
 
 impl Client {
@@ -24,7 +26,8 @@ impl Client {
     ///   On failure, returns an `Error` if the URL string is invalid.
     pub fn new(url: &str) -> Result<Client, Error> {
         let url = Url::parse(url)?;
-        Ok(Client { url })
+        let client = reqwest::Client::new();
+        Ok(Client { url, client })
     }
 
     /// Sends a code execution request to the Rust playground and returns the result.
@@ -162,8 +165,7 @@ impl Client {
         U: for<'de> Deserialize<'de>,
     {
         let url = self.get_url(endpoint)?;
-        let client = reqwest::Client::new();
-        let res = client.post(url).json(request).send().await?;
+        let res = self.client.post(url).json(request).send().await?;
 
         if !res.status().is_success() {
             return Err(Error::NoSuccess(res.status().as_u16()));
@@ -182,8 +184,7 @@ impl Client {
         U: for<'de> Deserialize<'de>,
     {
         let url = self.get_url(endpoint)?;
-        let client = reqwest::Client::new();
-        let res = client.get(url).send().await?;
+        let res = self.client.get(url).send().await?;
 
         if !res.status().is_success() {
             return Err(Error::NoSuccess(res.status().as_u16()));
@@ -214,8 +215,10 @@ impl Client {
 impl Default for Client {
     /// Creates a `Client` instance with the following url https://play.rust-lang.org/
     fn default() -> Self {
+        let client = reqwest::Client::new();
         Self {
             url: Url::parse("https://play.rust-lang.org/").unwrap(),
+            client,
         }
     }
 }

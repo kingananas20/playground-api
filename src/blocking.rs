@@ -1,10 +1,11 @@
+#[cfg(feature = "blocking")]
 use crate::{endpoints::*, error::Error};
 use serde::{de::Deserialize, Serialize};
 use url::{ParseError, Url};
 
 /// A client for interacting with the Rust playground API.
 ///
-/// Holds the base URL and the `reqwest::Client` struct for all requests.
+/// Holds the base URL and the `reqwest::blocking::Client` struct for all requests.
 #[cfg(feature = "blocking")]
 #[derive(Clone)]
 pub struct Client {
@@ -321,6 +322,7 @@ impl Client {
     }
 }
 
+#[cfg(feature = "blocking")]
 impl Default for Client {
     /// Creates a `Client` instance with the following url https://play.rust-lang.org/
     fn default() -> Self {

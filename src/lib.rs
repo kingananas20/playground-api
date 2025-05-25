@@ -1,4 +1,6 @@
+#[cfg(feature = "blocking")]
 pub mod blocking;
+
 mod client;
 pub mod endpoints;
 mod error;

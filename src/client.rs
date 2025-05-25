@@ -320,7 +320,7 @@ impl Client {
 }
 
 impl Default for Client {
-    /// Creates a `Client` instance with the following url https://play.rust-lang.org/
+    /// Creates a `Client` instance with the following url <https://play.rust-lang.org/>
     fn default() -> Self {
         let client = reqwest::Client::new();
         Self {

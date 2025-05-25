@@ -1,3 +1,5 @@
+//! Holds the blocking version of the Client. Only accessible by enabling the `blocking` feature.
+
 #[cfg(feature = "blocking")]
 use crate::{endpoints::*, error::Error};
 #[cfg(feature = "blocking")]
@@ -326,7 +328,7 @@ impl Client {
 
 #[cfg(feature = "blocking")]
 impl Default for Client {
-    /// Creates a `Client` instance with the following url https://play.rust-lang.org/
+    /// Creates a `Client` instance with the following url <https://play.rust-lang.org/>
     fn default() -> Self {
         let client = reqwest::blocking::Client::new();
         Self {

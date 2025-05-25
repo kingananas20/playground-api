@@ -1,6 +1,8 @@
 #[cfg(feature = "blocking")]
 use crate::{endpoints::*, error::Error};
+#[cfg(feature = "blocking")]
 use serde::{de::Deserialize, Serialize};
+#[cfg(feature = "blocking")]
 use url::{ParseError, Url};
 
 /// A client for interacting with the Rust playground API.

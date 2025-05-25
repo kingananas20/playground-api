@@ -128,10 +128,51 @@ impl Client {
         self.post(request, Endpoints::Clippy).await
     }
 
+    /// Sends a Miri request to the Rust playground and returns the result of interpreting the code.
+    ///
+    /// This asynchronous method takes a [`MiriRequest`] containing the Rust code and any
+    /// interpreter-specific options, sends it to the Rust playground's Miri endpoint, and
+    /// returns the result of running the interpreter on the code.
+    ///
+    /// # Arguments
+    ///
+    /// * `request` - A reference to a [`MiriRequest`] that includes the code and metadata
+    ///   such as edition, crate type, and other configuration options.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<MiriResponse, Error>` - On success, returns a [`MiriResponse`] containing the
+    ///   result of the interpretation. On failure, returns an [`Error`] describing the issue.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the request fails, if the response is invalid, or if the Miri service
+    /// encounters an internal issue.
     pub async fn miri(&self, request: &MiriRequest) -> Result<MiriResponse, Error> {
         self.post(request, Endpoints::Miri).await
     }
 
+    /// Sends a macro expansion request to the Rust playground and returns the result.
+    ///
+    /// This asynchronous method takes a [`MacroExpansionRequest`] with Rust code containing macros,
+    /// sends it to the Rust playground's macro expansion endpoint, and returns the result
+    /// of the expanded macros.
+    ///
+    /// # Arguments
+    ///
+    /// * `request` - A reference to a [`MacroExpansionRequest`] that includes the code and any
+    ///   configuration options like the edition to use.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<MacroExpansionResponse, Error>` - On success, returns a [`MacroExpansionResponse`]
+    ///   containing the macro-expanded version of the code. On failure, returns an [`Error`] describing
+    ///   the issue.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the HTTP request fails, if the response is invalid, or if the macro expansion
+    /// service encounters an issue.
     pub async fn macro_expansion(
         &self,
         request: &MacroExpansionRequest,
@@ -139,18 +180,84 @@ impl Client {
         self.post(request, Endpoints::MacroExpansion).await
     }
 
+    /// Retrieves the list of available crates from the Rust playground.
+    ///
+    /// This asynchronous method sends a GET request to the crates endpoint
+    /// and returns a list of crates supported by the playground environment.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<CratesResponse, Error>` - On success, returns a [`CratesResponse`] containing
+    ///   the names and versions of available crates. On failure, returns an [`Error`] describing
+    ///   the problem.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the request fails, if the response cannot be parsed,
+    /// or if the crates service is unavailable.
     pub async fn crates(&self) -> Result<CratesResponse, Error> {
         self.get(Endpoints::Crates).await
     }
 
+    /// Retrieves the supported versions and metadata of the Rust playground.
+    ///
+    /// This asynchronous method sends a GET request to the versions endpoint and
+    /// returns information about supported Rust versions, targets, and environments.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<VersionsResponse, Error>` - On success, returns a [`VersionsResponse`]
+    ///   containing version details. On failure, returns an [`Error`] describing what went wrong.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the request cannot be completed, the response is malformed,
+    /// or if the versions service is unavailable.
     pub async fn versions(&self) -> Result<VersionsResponse, Error> {
         self.get(Endpoints::Versions).await
     }
 
+    /// Creates a GitHub Gist from the provided Rust playground code.
+    ///
+    /// This asynchronous method sends a [`GistCreateRequest`] to the Gist creation endpoint
+    /// and returns a response containing the Gist URL or error information.
+    ///
+    /// # Arguments
+    ///
+    /// * `request` - A reference to a [`GistCreateRequest`] that includes the code to be uploaded
+    ///   as a Gist and any additional metadata like description or visibility.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<GistResponse, Error>` - On success, returns a [`GistResponse`] containing
+    ///   the Gist ID and URL. On failure, returns an [`Error`] describing what went wrong.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the HTTP request fails, if the response is malformed,
+    /// or if the Gist service is unavailable.
     pub async fn gist_create(&self, request: &GistCreateRequest) -> Result<GistResponse, Error> {
         self.post(request, Endpoints::GistCreate).await
     }
 
+    /// Retrieves an existing GitHub Gist from the Rust playground.
+    ///
+    /// This asynchronous method sends a GET request to the Gist retrieval endpoint
+    /// using the provided Gist ID and returns the contents of the Gist.
+    ///
+    /// # Arguments
+    ///
+    /// * `id` - A `String` representing the unique identifier of the Gist to retrieve.
+    ///
+    /// # Returns
+    ///
+    /// * `Result<GistResponse, Error>` - On success, returns a [`GistResponse`] containing
+    ///   the Gist's code and metadata. On failure, returns an [`Error`] describing the issue.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the HTTP request fails, if the response is invalid,
+    /// or if the Gist could not be found.
     pub async fn gist_get(&self, id: String) -> Result<GistResponse, Error> {
         self.get(Endpoints::GistGet(id)).await
     }

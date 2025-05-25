@@ -8,7 +8,7 @@
 ![Stars](https://img.shields.io/github/stars/kingananas20/playground-api)
 ![Forks](https://img.shields.io/github/forks/kingananas20/playground-api)
 
-`playground-api` is a Rust crate designed to simplify interaction with the Rust Playground API. It provides an easy-to-use interface for executing Rust code snippets programmatically.
+`playground-api` is a Rust crate designed to simplify interaction with the Rust Playground API. It provides an easy-to-use interface for executing Rust code snippets programmatically. It supports async and blocking Clients.
 
 ## Features
 

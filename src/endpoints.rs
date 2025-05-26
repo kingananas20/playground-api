@@ -42,26 +42,32 @@ pub(crate) enum Endpoints {
 ///
 /// Each edition introduces new language features and idioms while maintaining compatibility.
 #[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "poise-bot", derive(poise::ChoiceParameter))]
 pub enum Edition {
     /// Rust 2024 Edition
+    #[cfg_attr(feature = "poise-bot", name = "Edition 2024")]
     #[serde(rename = "2024")]
     Edition2024,
 
     /// Rust 2021 Edition
+    #[cfg_attr(feature = "poise-bot", name = "Edition 2021")]
     #[serde(rename = "2021")]
     Edition2021,
 
     /// Rust 2018 Edition
+    #[cfg_attr(feature = "poise-bot", name = "Edition 2018")]
     #[serde(rename = "2018")]
     Edition2018,
 
     /// Rust 2015 Edition
+    #[cfg_attr(feature = "poise-bot", name = "Edition 2015")]
     #[serde(rename = "2015")]
     Edition2015,
 }
 
 /// Defines the type of crate to be compiled: binary or library.
 #[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "poise-bot", derive(poise::ChoiceParameter))]
 pub enum CrateType {
     /// A binary crate with a `main` function, compiled to an executable.
     #[serde(rename = "bin")]
@@ -72,34 +78,9 @@ pub enum CrateType {
     Library,
 }
 
-/// Specifies the type of Rust library to build.
-///
-/// These map to different kinds of compiled library outputs.
-#[allow(dead_code)]
-#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
-#[serde(rename_all = "lowercase")]
-enum LibraryType {
-    /// A standard Rust library (`lib.rs`).
-    Lib,
-
-    /// A dynamic system library (`.so`, `.dylib`, etc.).
-    Dylib,
-
-    /// A Rust-specific compiled library format.
-    Rlib,
-
-    /// A statically linked library (`.a`, etc.).
-    Staticlib,
-
-    /// A C-compatible dynamic library.
-    Cdylib,
-
-    /// A procedural macro crate.
-    ProcMacro,
-}
-
 /// Indicates whether to compile code in debug or release mode.
 #[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "poise-bot", derive(poise::ChoiceParameter))]
 #[serde(rename_all = "lowercase")]
 pub enum Mode {
     /// Compile with debug information and no optimizations.
@@ -111,6 +92,7 @@ pub enum Mode {
 
 /// Specifies the Rust release channel to use.
 #[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "poise-bot", derive(poise::ChoiceParameter))]
 #[serde(rename_all = "lowercase")]
 pub enum Channel {
     /// Stable channel – tested and officially released features.

@@ -158,6 +158,7 @@ pub struct CompileResponse {
 /// - `Att`: AT&T syntax (common on Unix-like systems).
 /// - `Intel`: Intel syntax (common on Windows).
 #[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "poise-bot", derive(poise::ChoiceParameter))]
 #[serde(rename_all = "lowercase")]
 pub enum AssemblyFlavor {
     Att,
@@ -169,6 +170,7 @@ pub enum AssemblyFlavor {
 /// - `Demangle`: Convert symbol names to human-readable form.
 /// - `Mangle`: Keep symbol names mangled (default compiler format).
 #[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "poise-bot", derive(poise::ChoiceParameter))]
 #[serde(rename_all = "lowercase")]
 pub enum DemangleAssembly {
     Demangle,
@@ -180,6 +182,7 @@ pub enum DemangleAssembly {
 /// - `Filter`: Filter assembly output for readability.
 /// - `Raw`: Return raw assembly output without filtering.
 #[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "poise-bot", derive(poise::ChoiceParameter))]
 #[serde(rename_all = "lowercase")]
 pub enum ProcessAssembly {
     Filter,
@@ -195,6 +198,7 @@ pub enum ProcessAssembly {
 /// - `Mir`: Mid-level Intermediate Representation.
 /// - `Wasm`: WebAssembly output.
 #[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "poise-bot", derive(poise::ChoiceParameter))]
 #[serde(rename_all = "lowercase")]
 pub enum CompileTarget {
     #[serde(rename = "asm")]

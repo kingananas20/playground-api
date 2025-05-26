@@ -72,6 +72,7 @@ pub struct MiriResponse {
 
 /// The aliasing model used by Miri to simulate pointer and memory behavior.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "poise-bot", derive(poise::ChoiceParameter))]
 #[serde(rename_all = "lowercase")]
 pub enum AliasingModel {
     /// Uses the Stacked Borrows model for aliasing checks.

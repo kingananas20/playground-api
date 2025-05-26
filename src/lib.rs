@@ -11,6 +11,8 @@
 //!   non-blocking HTTP requests.  
 //! - **Blocking client** (`blocking` feature): enables `reqwest::blocking::Client`
 //!   for environments where async is not desired or available.
+//! - **Poise support** (`poise-bot` feature): makes all enums derive the
+//!   `poise::ChoiceParameter` macro.
 //!
 //! ## Installation
 //!

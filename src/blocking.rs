@@ -320,7 +320,7 @@ impl Client {
             Endpoints::Versions => self.url.join("meta/versions"),
             Endpoints::MacroExpansion => self.url.join("macro-expansion"),
             Endpoints::GistCreate => self.url.join("meta/gist"),
-            Endpoints::GistGet(id) => self.url.join(&format!("meta/gist/{}", id)),
+            Endpoints::GistGet(id) => self.url.join(&format!("meta/gist/{id}")),
         }?;
         Ok(url)
     }

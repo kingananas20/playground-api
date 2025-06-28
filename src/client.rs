@@ -273,6 +273,7 @@ impl Client {
     {
         let url = self.get_url(endpoint)?;
         let res = self.client.post(url).json(request).send().await?;
+        println!("{:?}", res.headers());
 
         if !res.status().is_success() {
             return Err(Error::NoSuccess(res.status().as_u16()));
@@ -313,7 +314,7 @@ impl Client {
             Endpoints::Versions => self.url.join("meta/versions"),
             Endpoints::MacroExpansion => self.url.join("macro-expansion"),
             Endpoints::GistCreate => self.url.join("meta/gist"),
-            Endpoints::GistGet(id) => self.url.join(&format!("meta/gist/{}", id)),
+            Endpoints::GistGet(id) => self.url.join(&format!("meta/gist/{id}")),
         }?;
         Ok(url)
     }
@@ -342,7 +343,7 @@ mod tests {
         let client = Client::default();
         let res = client.execute(&req).await;
 
-        println!("{:?}", res);
+        println!("{res:?}");
         assert!(res.is_ok())
     }
 
@@ -353,7 +354,7 @@ mod tests {
         let client = Client::default();
         let res = client.compile(&req).await;
 
-        println!("{:?}", res);
+        println!("{res:?}");
         assert!(res.is_ok());
     }
 
@@ -364,7 +365,7 @@ mod tests {
         let client = Client::default();
         let res = client.format(&req).await;
 
-        println!("{:?}", res);
+        println!("{res:?}");
         assert!(res.is_ok());
     }
 
@@ -375,7 +376,7 @@ mod tests {
         let client = Client::default();
         let res = client.clippy(&req).await;
 
-        println!("{:?}", res);
+        println!("{res:?}");
         assert!(res.is_ok());
     }
 
@@ -386,7 +387,7 @@ mod tests {
         let client = Client::default();
         let res = client.miri(&req).await;
 
-        println!("{:?}", res);
+        println!("{res:?}");
         assert!(res.is_ok());
     }
 
@@ -397,7 +398,7 @@ mod tests {
         let client = Client::default();
         let res = client.macro_expansion(&req).await;
 
-        println!("{:?}", res);
+        println!("{res:?}");
         assert!(res.is_ok());
     }
 
@@ -406,7 +407,7 @@ mod tests {
         let client = Client::default();
         let res = client.crates().await;
 
-        println!("{:?}", res);
+        println!("{res:?}");
         assert!(res.is_ok());
     }
 
@@ -415,7 +416,7 @@ mod tests {
         let client = Client::default();
         let res = client.versions().await;
 
-        println!("{:?}", res);
+        println!("{res:?}");
         assert!(res.is_ok());
     }
 
@@ -427,7 +428,7 @@ mod tests {
         let client = Client::default();
         let res = client.gist_create(&req).await;
 
-        println!("{:?}", res);
+        println!("{res:?}");
         assert!(res.is_ok());
     }
 
@@ -438,7 +439,7 @@ mod tests {
         let client = Client::default();
         let res = client.gist_get(id).await;
 
-        println!("{:?}", res);
+        println!("{res:?}");
         assert!(res.is_ok());
     }
 }
